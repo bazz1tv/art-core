@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/opt/local/bin/python
 # I HAVENT PROVEN THIS WORKS!! 
 import httplib2
 import os
@@ -112,7 +112,7 @@ for channel in channels_response["items"]:
     for playlist_item in playlistitems_list_response["items"]:
       title = playlist_item["snippet"]["title"]
       video_id = playlist_item["snippet"]["resourceId"]["videoId"]
-      print "%s %s" % (title, video_id)
+      print "%s/%s" % (title, video_id)
 
     playlistitems_list_request = youtube.playlistItems().list_next(
       playlistitems_list_request, playlistitems_list_response)

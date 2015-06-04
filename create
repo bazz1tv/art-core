@@ -1,0 +1,4 @@
+mkdir -p $1/$1
+touch $1/$1/README.txt
+mkdir -p $1/$1/C4D
+mkdir -p $1/$1/AA

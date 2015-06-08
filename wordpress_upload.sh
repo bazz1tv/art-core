@@ -72,13 +72,13 @@ fi
 #exit
 
 for day in $@; do
-	if ! [ "include_video" = "" ]; then
-		youtube_url=`scripts/query_youtube_uploaded_video_url.sh $day`
+	if ! [ "$include_video" = "" ]; then
+		youtube_url=`scripts/query_youtube_uploaded_video_url.sh "$day"`
 		printf "youtube URL: $youtube_url\n"
 		video="-v $youtube_url"
 	fi
 
-mediafire_download_link=`scripts/aux/mediafire_get_download_url.sh -m $mediafire_password $day`
+mediafire_download_link=`scripts/aux/mediafire_get_download_url.sh -m $mediafire_password "$day"`
 printf "mediafire_download_link: $mediafire_download_link\n"
-python2.7 scripts/aux/wordpress_upload.py -p $wordpress_password $image_location $video -m $mediafire_download_link $day
+python2.7 scripts/aux/wordpress_upload.py -p $wordpress_password $image_location $video -m "$mediafire_download_link" "$day"
 done

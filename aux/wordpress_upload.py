@@ -16,6 +16,7 @@ def usage():
 	print 'WORDPRESS_URL = ' + config.WORDPRESS_URL
 
 def main():
+	print sys.argv
 	USER = 'bazz1'
 	PASSWORD = ''
 	#TYPE = ''
@@ -93,6 +94,9 @@ def main():
 			# }
 			# Include image in post and center it! 
 			post.content += "<img class=\" size-full wp-image-95 aligncenter\" src=\"" + response['url'] + "\">\n"
+			# sometimes "featured image" (thumbnail) looks like shit, and I've no idea how to preview it before publishing..
+			# since it only appears AFTER I publish :[
+			#post.thumbnail = response['id']
 		
 		if VIDEO != '':
 			# Do a youtube include

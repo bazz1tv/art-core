@@ -75,10 +75,12 @@ for day in $@; do
 	mediafire_download_link=`scripts/aux/mediafire_get_download_url.sh -m $mediafire_password $day` &&
 	if ! [ "$local_video" = "" ]; then
 		# upload video to youtube
-		scripts/youtube_upload.sh -l $mediafire_download_link $local_video
+		scripts/youtube_upload.sh -l $mediafire_download_link $local_video "$day" &&
+		# add wordpress blog post!! 
+		scripts/wordpress_upload.sh -m "$mediafire_password" -w "$wordpress_password" -v $image_location "$day"
+	else
+		scripts/wordpress_upload.sh -m "$mediafire_password" -w "$wordpress_password" "$image_location" "$day"
 	fi &&
-	# add wordpress blog post!! 
-	scripts/wordpress_upload.sh -m "$mediafire_password" -w "$wordpress_password" $local_video $image_location $day &&
 
 	echo "$day" >> successful_completion.txt
 done

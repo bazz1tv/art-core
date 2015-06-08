@@ -1,4 +1,11 @@
-mkdir -p $1/$1
-touch $1/$1/README.txt
-mkdir -p $1/$1/C4D
-mkdir -p $1/$1/AA
+# create a new folder hierarchy for the new day to be done today. :)
+# Find the current Day number
+# provided that we continue using the precise format "DayN" (no spaces), and N is an arbitrary positive whole number.
+# We should be able to continue using below's ability to give us the NEXT day number.. using that, this script will
+# create a new folder hierarchy for the new day to be done today. :)
+day="Day$((`ls | sed 's/Day//g' | sort -n | tail -1`+1))"
+
+mkdir -p "$day/$day"
+touch "$day/$day/README.txt"
+mkdir -p "$day/$day/C4D"
+mkdir -p "$day/$day/AA"

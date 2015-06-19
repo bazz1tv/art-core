@@ -6,9 +6,14 @@ mediafire_password=''
 wordpress_password=''
 include_video=''
 image_location=''
+dont_publish=''
+description=''
 x=0
-while getopts "m:w:p:i:vh" opt; do
+while getopts "d:m:w:p:i:vhn" opt; do
 	case $opt in
+		d)
+			description="-d \"$OPTARG\""
+			;;
 		m)
 			#echo 'M'
 			mediafire_password="$OPTARG"
@@ -28,6 +33,10 @@ while getopts "m:w:p:i:vh" opt; do
 			printf -- '-m: mediafire_password\n'
 			printf -- '-w: wordpress_password\n'
 			exit 1
+			;;
+		n)
+			printf 'not publishing wordpress article'
+			dont_publish="-n"
 			;;
 		\?)
 			echo "Invalid option: -$OPTARG" >&2
@@ -80,5 +89,5 @@ for day in $@; do
 
 mediafire_download_link=`scripts/aux/mediafire_get_download_url.sh -m $mediafire_password "$day"`
 printf "mediafire_download_link: $mediafire_download_link\n"
-python2.7 scripts/aux/wordpress_upload.py -p $wordpress_password $image_location $video -m "$mediafire_download_link" "$day"
+python2.7 scripts/aux/wordpress_upload.py -p $wordpress_password $image_location $video -m "$mediafire_download_link" "$dont_publish" "$description" "$day"
 done

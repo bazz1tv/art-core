@@ -9,9 +9,14 @@ wordpress_password=''
 include_video=''
 image_location=''
 local_video=''
+dont_publish=''
+description=''
 x=0
-while getopts "m:w:p:i:v:h" opt; do
+while getopts "d:m:w:p:i:v:hn" opt; do
 	case $opt in
+		d)
+			description="-d \"$OPTARG\""
+			;;
 		m)
 			#echo 'M'
 			mediafire_password="$OPTARG"
@@ -30,7 +35,13 @@ while getopts "m:w:p:i:v:h" opt; do
 			printf 'usage:\n'
 			printf -- '-m: mediafire_password\n'
 			printf -- '-w: wordpress_password\n'
+			printf -- '-i: image file for wordpress\n'
+			printf -- '-v: video file for youtube/wordpress\n'
+			printf -- "-n: don't publish wordpress article\n"
 			exit 1
+			;;
+		n)
+			dont_publish='-n'
 			;;
 		\?)
 			echo "Invalid option: -$OPTARG" >&2
@@ -77,9 +88,9 @@ for day in $@; do
 		# upload video to youtube
 		scripts/youtube_upload.sh -l $mediafire_download_link $local_video "$day" &&
 		# add wordpress blog post!! 
-		scripts/wordpress_upload.sh -m "$mediafire_password" -w "$wordpress_password" -v $image_location "$day"
+		scripts/wordpress_upload.sh -m "$mediafire_password" -w "$wordpress_password" -v $image_location "$dont_publish" "$description" "$day"
 	else
-		scripts/wordpress_upload.sh -m "$mediafire_password" -w "$wordpress_password" "$image_location" "$day"
+		scripts/wordpress_upload.sh -m "$mediafire_password" -w "$wordpress_password" "$image_location" "$dont_publish" "$description" "$day"
 	fi &&
 
 	echo "$day" >> successful_completion.txt

@@ -13,6 +13,8 @@ def usage():
 	#print '-t [type] - "video" or "image"'
 	print '-i [local image]'
 	print '-v [video] - youtube URL'
+	print '-n --no-publish'
+	print '-d --description-file [file] : file for post content'
 	print 'WORDPRESS_URL = ' + config.WORDPRESS_URL
 
 def main():
@@ -23,8 +25,10 @@ def main():
 	IMAGE = ''
 	VIDEO = ''
 	MF_DOWNLOAD_URL = ''
+	PUBLISH = True
+	DESCRIPTION = ''
 	try:
-		opts, args = getopt.getopt(sys.argv[1:], "hp:u:i:v:m:", ["help", "output="])
+		opts, args = getopt.getopt(sys.argv[1:], "d:hnp:u:i:v:m:", ["help", "output="])
 	except getopt.GetoptError as err:
 		# print help information and exit:
 		print str(err) # will print something like "option -a not recognized"
@@ -33,7 +37,10 @@ def main():
 	output = None
 	verbose = False
 	for o, a in opts:
-		if o in ("-h", "--help"):
+		if o in ("-d", "--description-file"):
+			with open(a, 'r') as content_file:
+				DESCRIPTION = content_file.read()
+		elif o in ("-h", "--help"):
 			usage()
 			sys.exit()
 		elif o in ("-p", "--password"):
@@ -53,10 +60,16 @@ def main():
 			VIDEO = a
 		elif o in ("-m", "--mediafire"):
 			MF_DOWNLOAD_URL = a
+		elif o in ("-n", "--no-publish"):
+			PUBLISH = False
 		else:
-			assert False, "unhandled option"
+			assert False, "unhandled option " + o
 	# ...
 	print args
+	# filter out the empty string arguments, otherwise they get processed as Days
+	args = filter(None, args) # fastest
+	print args
+	#sys.exit()
 
 	if PASSWORD == '':
 		sys.exit("No password provided")
@@ -106,11 +119,15 @@ def main():
 		if MF_DOWNLOAD_URL != '':
 			post.content += MF_DOWNLOAD_URL + "\n"
 
+		if DESCRIPTION:
+			post.content += DESCRIPTION + "\n"
+
 		post.id = client.call(posts.NewPost(post))
 		
 		# whoops, I forgot to publish it!
-		post.post_status = 'publish'
-		client.call(posts.EditPost(post.id, post))
+		if PUBLISH:
+			post.post_status = 'publish'
+			client.call(posts.EditPost(post.id, post))
 
 if __name__ == "__main__":
 	main()

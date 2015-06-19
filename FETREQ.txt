@@ -1,0 +1,2 @@
+option to publish wordpress blog post or just create. 
+option to include descriptions to {wordpress,youtube}

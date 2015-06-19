@@ -2,7 +2,7 @@
 # INPUTS
 # $1 - Day#
 # $2 - MediaFire URL
-PREFIX=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin
+source scripts/aux/config.sh
 
 while getopts "l:v:h" opt; do
 	case $opt in
@@ -34,7 +34,7 @@ day="$1"
 
 printf "day: $day\nmediafire_url: $mediafire_download_url\nvideo_file: $local_video\n"
 
-$PREFIX/youtube-upload --title="$day" \
+$YOUTUBE_UPLOAD_PREFIX/youtube-upload --title="$day" \
                  --description="https://bazzinotti.wordpress.com/
 
 ${mediafire_download_url}" \

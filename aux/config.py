@@ -1,1 +1,1 @@
-WORDPRESS_URL = 'https://bazzinotti.wordpress.com'
+WORDPRESS_URL = 'https://derp.wordpress.com'

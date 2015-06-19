@@ -1,5 +1,5 @@
-MEDIAFIRE_EMAIL='modmeista@gmail.com'
-WORDPRESS_USER='bazz1'
+MEDIAFIRE_EMAIL='derp@derp.com'
+WORDPRESS_USER='derp'
 YOUTUBE_UPLOAD_PREFIX=/Users/bazz/Code/youtube-upload/bin
 
 # Facebook settings

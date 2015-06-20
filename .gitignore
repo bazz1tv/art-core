@@ -1,3 +1,4 @@
 client_secrets.json
 mediafire-python-open-sdk
 *.json
+*.pyc
